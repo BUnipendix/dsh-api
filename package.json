@@ -2,7 +2,9 @@
   "name": "@kelemiao/dsh-api",
   "version": "0.1.1",
   "description": "Local HTTP API for DeepSeek Harness: expose DSH session control to other agents",
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -11,15 +13,29 @@
     "./cordis.patch.yml": "./cordis.patch.yml",
     "./package.json": "./package.json"
   },
-  "files": ["lib", "scripts/smoke.mjs", "cordis.patch.yml"],
-  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "api", "agent", "ai-agents", "sse"],
+  "files": [
+    "lib",
+    "scripts/smoke.mjs",
+    "cordis.patch.yml"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "api",
+    "agent",
+    "ai-agents",
+    "sse"
+  ],
   "license": "MIT",
-  "scripts": { "test": "node --test" },
+  "scripts": {
+    "test": "node --test"
+  },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-host-apiproxy": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-settings": "^0.1.0-rc.6",
-    "@deepseek-ai/schemastery": "^3.18.1"
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-host-apiproxy": "*",
+    "@deepseek-ai/dsh-settings": "*",
+    "@deepseek-ai/schemastery": "*"
   },
   "dsh": {
     "bundle": {

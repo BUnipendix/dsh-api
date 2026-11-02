@@ -7,15 +7,8 @@
   },
   "type": "module",
   "main": "lib/index.js",
-  "exports": {
-    ".": "./lib/index.js",
-    "./client": "./lib/client.js",
-    "./cordis.patch.yml": "./cordis.patch.yml",
-    "./package.json": "./package.json"
-  },
   "files": [
     "lib",
-    "scripts/smoke.mjs",
     "cordis.patch.yml"
   ],
   "keywords": [
@@ -32,22 +25,16 @@
     "test": "node --test"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "*",
-    "@deepseek-ai/dsh-host-apiproxy": "*",
-    "@deepseek-ai/dsh-settings": "*",
-    "@deepseek-ai/schemastery": "*"
+    "@deepseek-ai/cordis": "*"
+  },
+  "exports": {
+    ".": "./lib/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
   },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    },
-    "client": {
-      "inject": [
-        "@deepseek-ai/dsh-client-runtime",
-        "@deepseek-ai/dsh-client-connection",
-        "@deepseek-ai/dsh-client-ui-settings"
-      ],
-      "platform": "web"
     }
   }
 }

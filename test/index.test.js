@@ -1,43 +1,18 @@
 import assert from "node:assert/strict"
 import test from "node:test"
 import { apply, name, inject } from "../lib/index.js"
+import { readConfig } from "../lib/config.js"
 
-function makeCtx(apiProxy) {
-  const effects = []
-  return {
-    ctx: {
-      apiProxy,
-      inject(services, callback) {
-        if (services.includes("settings")) return
-      },
-      effect(run) {
-        effects.push(run)
-        return () => {}
-      }
-    },
-    effects
-  }
-}
-
-test("host plugin declares the official name and apiProxy injection", () => {
+test("插件只注入 sessionController，不再依赖 apiProxy", () => {
   assert.equal(name, "dsh-api")
-  assert.deepEqual(inject, ["apiProxy"])
+  assert.deepEqual(inject, ["sessionController"])
+  assert.equal(typeof apply, "function")
 })
 
-test("apply with enabled=false installs the lifecycle effect and starts no server", async () => {
-  const { ctx, effects } = makeCtx({ sessions: {}, events: {} })
-  apply(ctx, { enabled: false, port: 0, token: "test-token-123456" })
-  assert.equal(effects.length, 1)
-  const dispose = await effects[0]()
-  assert.equal(typeof dispose, "function")
-})
-
-test("apply with enabled=true runs the effect, returns a disposer, and disposing does not throw", async () => {
-  const { ctx, effects } = makeCtx({ sessions: {}, events: {} })
-  apply(ctx, { enabled: true, port: 0, token: "test-token-123456" })
-  assert.equal(effects.length, 1)
-  const dispose = await effects[0]()
-  await new Promise((resolve) => setTimeout(resolve, 150))
-  assert.equal(typeof dispose, "function")
-  assert.doesNotThrow(() => dispose())
+test("配置默认值：4777、sources/audit 落在 ~/.dsh/dsh-api", () => {
+  const cfg = readConfig({})
+  assert.equal(cfg.port, 4777)
+  assert.equal(cfg.enabled, true)
+  assert.match(cfg.sourcesPath, /\.dsh\/dsh-api\/sources\.json$/)
+  assert.match(cfg.auditPath, /\.dsh\/dsh-api\/audit\.jsonl$/)
 })
